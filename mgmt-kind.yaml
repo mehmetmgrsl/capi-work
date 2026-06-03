@@ -1,0 +1,13 @@
+# Management cluster (kind). The docker.sock mount lets the CAPD controller
+# (running as a pod in here) create the workload-cluster node containers on the
+# host's Docker. Omit the mount and workload clusters hang in `Provisioning`.
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: mgmt
+networking:
+  ipFamily: dual
+nodes:
+- role: control-plane
+  extraMounts:
+    - hostPath: /var/run/docker.sock
+      containerPath: /var/run/docker.sock

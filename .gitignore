@@ -1,0 +1,16 @@
+*.kubeconfig        
+kubeconfig
+*.pem
+*.key
+.env
+.env.*
+
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+
+*.tmp
+*.log
