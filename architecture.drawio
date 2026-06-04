@@ -1,0 +1,70 @@
+<mxfile host="Electron">
+  <diagram name="Page-1" id="SA7KMQRPOTtwJBIuDbDe">
+    <mxGraphModel dx="934" dy="594" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="8Il4LFxbyLeS18qK2yUa-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;labelPosition=center;verticalLabelPosition=top;align=center;verticalAlign=bottom;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;span style=&quot;font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-weight: 700; text-align: start; white-space: nowrap; background-color: rgb(51, 255, 255);&quot;&gt;&lt;font style=&quot;&quot;&gt;Management K8S Cluster - &lt;span&gt;mgmt&lt;/span&gt; (kind)&lt;/font&gt;&lt;/span&gt;" vertex="1">
+          <mxGeometry height="95" width="720" x="43" y="119" as="geometry" />
+        </mxCell>
+        <mxCell id="8Il4LFxbyLeS18qK2yUa-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;labelPosition=center;verticalLabelPosition=top;align=center;verticalAlign=bottom;labelBackgroundColor=#FFCC99;fillColor=#ffe6cc;strokeColor=#d79b00;" value="&lt;b style=&quot;background-color: light-dark(rgb(255, 255, 0), rgb(94, 50, 6));&quot;&gt;Workload Cluster - DEV&lt;/b&gt;" vertex="1">
+          <mxGeometry height="123" width="221" x="53" y="245" as="geometry" />
+        </mxCell>
+        <mxCell id="8Il4LFxbyLeS18qK2yUa-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1" value="control plane" vertex="1">
+          <mxGeometry height="60" width="100" x="63" y="275" as="geometry" />
+        </mxCell>
+        <mxCell id="8Il4LFxbyLeS18qK2yUa-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1" value="worker node" vertex="1">
+          <mxGeometry height="60" width="80" x="173" y="275" as="geometry" />
+        </mxCell>
+        <mxCell id="8Il4LFxbyLeS18qK2yUa-10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;labelPosition=center;verticalLabelPosition=top;align=center;verticalAlign=bottom;labelBackgroundColor=#FFFF00;fillColor=#ffe6cc;strokeColor=#d79b00;" value="&lt;b&gt;Workload&lt;/b&gt;&lt;b&gt;&amp;nbsp;Cluster - TEST&lt;/b&gt;" vertex="1">
+          <mxGeometry height="124" width="210" x="283" y="245" as="geometry" />
+        </mxCell>
+        <mxCell id="8Il4LFxbyLeS18qK2yUa-11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1" value="control plane" vertex="1">
+          <mxGeometry height="60" width="100" x="293" y="275" as="geometry" />
+        </mxCell>
+        <mxCell id="8Il4LFxbyLeS18qK2yUa-12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1" value="worker node" vertex="1">
+          <mxGeometry height="60" width="80" x="403" y="275" as="geometry" />
+        </mxCell>
+        <mxCell id="8Il4LFxbyLeS18qK2yUa-13" parent="1" style="rounded=1;whiteSpace=wrap;html=1;labelPosition=center;verticalLabelPosition=top;align=center;verticalAlign=bottom;labelBackgroundColor=#00CC00;fillColor=#ffe6cc;strokeColor=#d79b00;" value="&lt;b style=&quot;background-color: light-dark(rgb(255, 255, 0), rgb(0, 162, 0));&quot;&gt;Workload Cluster - PROD&lt;/b&gt;" vertex="1">
+          <mxGeometry height="122" width="210" x="523" y="245" as="geometry" />
+        </mxCell>
+        <mxCell id="8Il4LFxbyLeS18qK2yUa-14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1" value="control plane" vertex="1">
+          <mxGeometry height="60" width="100" x="533" y="275" as="geometry" />
+        </mxCell>
+        <mxCell id="8Il4LFxbyLeS18qK2yUa-15" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1" value="worker node" vertex="1">
+          <mxGeometry height="60" width="80" x="643" y="275" as="geometry" />
+        </mxCell>
+        <mxCell id="8Il4LFxbyLeS18qK2yUa-17" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="CAPI Controllers&lt;div&gt;&lt;font style=&quot;font-size: 10px;&quot; face=&quot;Times New Roman&quot;&gt;(&lt;span style=&quot;text-align: start; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Cluster, Machine, MachineSet, ...&lt;/span&gt;&lt;/font&gt;&lt;span style=&quot;font-size: 10px; font-family: &amp;quot;Times New Roman&amp;quot;; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;)&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="143" x="63" y="149" as="geometry" />
+        </mxCell>
+        <mxCell id="8Il4LFxbyLeS18qK2yUa-18" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;div&gt;&lt;font style=&quot;&quot;&gt;Infrastructure Provider&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 10px;&quot; face=&quot;Times New Roman&quot;&gt;(&lt;span style=&quot;text-align: start; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Docker, AWS, ...&lt;/span&gt;&lt;/font&gt;&lt;span style=&quot;font-size: 10px; font-family: &amp;quot;Times New Roman&amp;quot;; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;)&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="160" x="223" y="149" as="geometry" />
+        </mxCell>
+        <mxCell id="8Il4LFxbyLeS18qK2yUa-19" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;div&gt;&lt;font style=&quot;&quot;&gt;Bootstrap Provider&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 10px;&quot; face=&quot;Times New Roman&quot;&gt;&lt;span style=&quot;text-align: start; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;(kubeadm, k3s, ...)&amp;nbsp;&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="160" x="403" y="149" as="geometry" />
+        </mxCell>
+        <mxCell id="8Il4LFxbyLeS18qK2yUa-20" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;div&gt;&lt;font style=&quot;&quot;&gt;ControlPlane Provider&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 10px;&quot; face=&quot;Times New Roman&quot;&gt;&lt;span style=&quot;text-align: start; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;(etcd, API Server, scheduler, ...)&amp;nbsp;&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="160" x="583" y="149" as="geometry" />
+        </mxCell>
+        <mxCell id="8Il4LFxbyLeS18qK2yUa-21" parent="1" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=8 8;fillColor=#ffe6cc;strokeColor=#d79b00;" value="More workload clusters - same workflow&lt;div&gt;swap provider: Docker (local) -&amp;gt;&amp;nbsp; AWS / CAPA (EKS)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="690" x="53" y="385" as="geometry" />
+        </mxCell>
+        <mxCell id="8Il4LFxbyLeS18qK2yUa-23" parent="1" style="text;whiteSpace=wrap;" value="v1.34.0 -&gt; v1.35.0" vertex="1">
+          <mxGeometry height="23" width="100" x="117" y="339" as="geometry" />
+        </mxCell>
+        <mxCell id="8Il4LFxbyLeS18qK2yUa-24" parent="1" style="text;whiteSpace=wrap;" value="v1.34.0 -&gt; v1.35.0" vertex="1">
+          <mxGeometry height="23" width="100" x="343" y="341" as="geometry" />
+        </mxCell>
+        <mxCell id="8Il4LFxbyLeS18qK2yUa-25" parent="1" style="text;whiteSpace=wrap;" value="v1.34.0 -&gt; v1.35.0" vertex="1">
+          <mxGeometry height="23" width="100" x="594" y="339" as="geometry" />
+        </mxCell>
+        <mxCell id="8Il4LFxbyLeS18qK2yUa-26" edge="1" parent="1" source="8Il4LFxbyLeS18qK2yUa-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="8Il4LFxbyLeS18qK2yUa-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="8Il4LFxbyLeS18qK2yUa-28" parent="1" style="text;whiteSpace=wrap;fontSize=20;fontStyle=1" value="ClusterAPI (CAPI) - Centralised K8S Cluster Management" vertex="1">
+          <mxGeometry height="36" width="696" x="108" y="27" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

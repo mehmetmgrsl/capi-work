@@ -8,13 +8,15 @@ The goal: go from *"10 clusters in different AWS accounts, upgraded manually"* t
 *"clusters as custom resources in one management cluster, upgraded by changing a
 field"*,  first locally (Docker provider), then on EKS (CAPA).
 
+
+![Architecture](architecture.png)
+
 ### Roadmap
 
 - [x] [01 — Why and What CAPI?](#01---why-cluster-api)
 - [x] [02 — Preconditions](#02--preconditions)
 - [x] [03 — Setup](#03--setup)
-- [ ] **04 — Test**: declarative day-2 ops, i.e. a Kubernetes version upgrade
-- [ ] **05 — Recommendations**: production guidance and gotchas
+- [x] [04 — Test - declarative day-2 ops, a k8s version upgrade](#04--test-a-centralized-k8s-version-upgrade)
 
 ## 01 - Why Cluster API?
 
@@ -455,8 +457,18 @@ kubectl get clusters     # dev / test / prod all VERSION v1.35.0
 That's the centralized fleet upgrade: three clusters, three one-line edits, all driven
 from the single management cluster.
 
+### License
+
+This project is licensed under the MIT License.
+
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+
+
 ### References
+
+This project is inspired by:
 
 - The Cluster API Book — https://cluster-api.sigs.k8s.io
 - [Introduction To Cluster API - Jussi Nummelin, Mirantis Inc](https://www.youtube.com/watch?v=UMNCKkdrfUo)
 - [KubeCon 2026 Europe: In-place Updates with Cluster API: Fabrizio Pandini & Stefan Büringer (immutability, rollout strategies)](https://www.youtube.com/watch?v=CMf6rOPo9Z0)
+
