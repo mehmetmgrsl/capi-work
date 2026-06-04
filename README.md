@@ -244,7 +244,7 @@ clusterctl generate cluster dev --flavor development \
   --worker-machine-count=1 \
   > dev.yaml
 
-kubectl apply -f manifests/dev.yaml
+kubectl apply -f dev.yaml
 ```
 
 > The `development` flavor includes a shared ClusterClass named `quick-start`; `test` and
@@ -266,22 +266,30 @@ expose to the host:
 
 ```
 kind get kubeconfig --name dev > dev.kubeconfig
+
+sed -i '' 's#https://0.0.0.0:#https://127.0.0.1:#' dev.kubeconfig
+# kind get kubeconfig on macOS/Docker Desktop sometimes writes the server as https://0.0.0.0:<port>, but the API server # # cert is only valid for 127.0.0.1, so TLS verification fails — this sed rewrites it to 127.0.0.1 to prevent that error.
+
 # Linux + Docker Engine instead:
 # clusterctl get kubeconfig dev > dev.kubeconfig
 ```
 
-### 5. Install a CNI
+### 5. Install a CNI (kindnet)
 
-Until a CNI is installed, the nodes stay `NotReady`. We use Calico:
+Until a CNI is installed the nodes stay `NotReady`. We use **kindnet** — KIND's default
+CNI. It is a single small image and reads each node's `spec.podCIDR` automatically, so it
+works with the CAPD default pod CIDR (`192.168.0.0/16`) with no edits:
 
 ```
 kubectl --kubeconfig=./dev.kubeconfig apply -f \
-  https://raw.githubusercontent.com/projectcalico/calico/v3.29.1/manifests/calico.yaml
+  https://raw.githubusercontent.com/kubernetes-sigs/kindnet/refs/heads/main/install-kindnet.yaml
 ```
 
-(The development flavor's default pod CIDR is `192.168.0.0/16`, which matches Calico's
-default pool, so the stock manifest works as-is. If a newer Calico is preferred, use the
-manifest from the Calico install guide.)
+> **Why not Calico here?** Calico works (its default pool also matches `192.168.0.0/16`),
+> but it ships three large images plus three init-containers; on a slow link each image
+> can take minutes to pull, *per cluster*. kindnet is one small image and comes up in
+> seconds — the right trade-off for a local lab. Calico's extras (NetworkPolicy, BGP,
+> eBPF) are production features we don't need here.
 
 ### 6. Verify `dev`
 
@@ -314,8 +322,10 @@ Then install the CNI on each (and grab their kubeconfigs):
 ```
 for ENV in test prod; do
   kind get kubeconfig --name "$ENV" > "$ENV.kubeconfig"
+  sed -i '' 's#https://0.0.0.0:#https://127.0.0.1:#' "$ENV.kubeconfig"
   kubectl --kubeconfig="./$ENV.kubeconfig" apply -f \
-    https://raw.githubusercontent.com/projectcalico/calico/v3.29.1/manifests/calico.yaml
+    https://raw.githubusercontent.com/kubernetes-sigs/kindnet/refs/heads/main/install-kindnet.yaml
+    
 done
 ```
 
