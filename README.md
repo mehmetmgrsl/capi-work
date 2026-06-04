@@ -332,6 +332,129 @@ done
 At this point three workload clusters exist, all at v1.34.0, all expressed as custom
 resources inside the single `mgmt` cluster.
 
+## 04 — Test: a centralized k8s version upgrade
+
+This is the payoff of the whole repo. We take the fleet from **v1.34.0 -> v1.35.0** by
+editing **one field per cluster** on the management cluster. CAPI does the rest: it
+rolls the control plane, then the workers, replacing machines from a trusted image,
+no SSH, no `kubeadm upgrade` on each node.
+
+This is exactly the "3 clusters, upgraded manually" -> "clusters as CRDs, upgraded by
+changing a field" jump.
+
+### 0. Prep
+
+Management operations run against the `mgmt` cluster — make sure `kubectl` points there:
+
+```
+kubectl config use-context kind-mgmt
+kubectl get clusters     # dev / test / prod, all v1.34.0
+```
+
+Pre-pull the target node image on the host so the replacement machine containers start
+fast (CAPD creates node containers from the host's image):
+
+```
+docker pull kindest/node:v1.35.0
+```
+
+> One-minor-at-a-time: you must always upgrade between Kubernetes minor versions in sequence
+> (v1.34 -> v1.35, never v1.34 -> v1.36 in one hop).(https://cluster-api.sigs.k8s.io/tasks/upgrading-clusters). EKS enforces the same rule.
+
+### 1. Upgrade `dev` (one field)
+
+```
+kubectl patch cluster dev --type merge \
+  -p '{"spec":{"topology":{"version":"v1.35.0"}}}'
+```
+
+That's the entire upgrade command. Everything below is just watching CAPI execute it.
+
+### 2. Watch the rolling replacement
+
+```
+clusterctl describe cluster dev
+# in another shell:
+kubectl get machines      # NAME ... PHASE AGE VERSION
+```
+
+What you'll observe, in order:
+
+1. **Control plane first.** A **new** control-plane machine is created at v1.35.0, it
+   joins, then the old v1.34.0 control-plane machine is deleted. The machine *name
+   changes* — that's the tell that CAPI replaced it rather than upgrading it in place.
+2. **Workers next.** Once the control plane is at v1.35.0, the MachineDeployment rolls
+   the worker the same way: new v1.35.0 machine up, old one drained and deleted.
+
+The high-level steps to fully upgrading a cluster are to first upgrade the control plane and then upgrade the worker machines.
+
+> During the control-plane roll you'll briefly see **two** control-plane machines (the
+> default keeps the old one until the new one is ready). That's one extra container for a
+> minute — fine at 16 GB, but it's why we upgrade one cluster at a time.
+
+### 3. Verify `dev`
+
+Your existing `dev.kubeconfig` keeps working through the upgrade: the `dev-lb` endpoint
+and the cluster CA are preserved across the control-plane replacement (unlike the reboot
+case, which regenerated them). If needed, re-fetch with the usual fix:
+
+```
+kind get kubeconfig --name dev > dev.kubeconfig
+sed -i '' 's#https://0.0.0.0:#https://127.0.0.1:#' dev.kubeconfig
+
+kubectl --kubeconfig=./dev.kubeconfig get nodes -o wide   # both nodes v1.35.0
+```
+
+When both nodes report **v1.35.0**, `dev` is upgraded.
+
+
+#### Why this works the way it does
+
+Two ideas from the talks show up directly here.
+
+**Version-skew guardrail (why control plane first).** CAPI refuses to upgrade workers
+ahead of the control plane — a worker can't be a minor version *above* its control
+plane. So even though you set one target version, CAPI sequences it safely: control
+plane, then workers. You don't manage the ordering; the system does.
+
+**Immutability (why machines are replaced, not edited).** CAPI treats a machine like an
+immutable pod: to change it, it creates a new one from a trusted image and deletes the
+old one. That's why the machine names changed. The benefit is no configuration drift —
+every node is identical to its template — and predictable troubleshooting. The default
+keeps availability during the roll (create the new machine before deleting the old).
+
+> Aside (CAPI v1.12, Jan 2026): the project added **in-place updates** (apply
+> low-disruption changes like an SSH key without replacing the machine) and **chained
+> upgrades** (set a target several minors ahead and CAPI walks the steps for you). Our
+> lab uses the default rolling replacement across a single minor, which is the safest and
+> most common path.
+
+### 4. Roll the fleet: `test`, then `prod`
+
+Same one-field edit, one cluster at a time — verify each before moving on, the way you'd
+sequence a real fleet (dev -> test -> prod):
+
+```
+# test
+kubectl patch cluster test --type merge -p '{"spec":{"topology":{"version":"v1.35.0"}}}'
+clusterctl describe cluster test
+kubectl --kubeconfig=./test.kubeconfig get nodes -o wide   # v1.35.0, then continue
+
+# prod
+kubectl patch cluster prod --type merge -p '{"spec":{"topology":{"version":"v1.35.0"}}}'
+clusterctl describe cluster prod
+kubectl --kubeconfig=./prod.kubeconfig get nodes -o wide   # v1.35.0
+```
+
+Confirm the whole fleet:
+
+```
+kubectl get clusters     # dev / test / prod all VERSION v1.35.0
+```
+
+That's the centralized fleet upgrade: three clusters, three one-line edits, all driven
+from the single management cluster.
+
 ### References
 
 - The Cluster API Book — https://cluster-api.sigs.k8s.io
